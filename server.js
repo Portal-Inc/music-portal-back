@@ -4,6 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require("mongoose");
+const SpotifyWebApi = require('spotify-web-api-node');
 mongoose.connect(process.env.DB_URL);
 const PORT = process.env.PORT || 3001;
 
@@ -25,6 +26,24 @@ app.get('/', (req, res) => {
 
   res.status(200).render('./index.html')
 
+})
+
+app.post('/login', (req, res) => {
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: '',
+    clientId: '',
+    clientSecret: ''
+  })
+
+  spotifyApi.authorizationCodeGrant(code).then(data => {
+    res.json({
+      accessToken: data.body.access_token,
+      refreshToken: data.body.refresh_token,
+      expiredIn: data.body.expires_in,
+    })
+  }).catch(() => {
+    res.sendStatus(400);
+  })
 })
 
 
