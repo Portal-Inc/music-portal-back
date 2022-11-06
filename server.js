@@ -28,6 +28,8 @@ app.get('/', (req, res) => {
 
 })
 
+
+
 app.post('/login', (req, res) => {
   const code = req.body.code
   const spotifyApi = new SpotifyWebApi({
@@ -78,6 +80,27 @@ app.post('/refresh', (req, res) => {
     })
 })
 
+app.post('/about', (req, res) => {
+  const code = req.body.code
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: process.env.REDIRECT_URI,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+  })
+  spotifyApi
+    .refreshAccessToken(code)
+    .then(data => {
+      console.log(data.body)
+      res.json({
+        accessToken: data.body.access_token,
+        expiresIn: data.body.expires_in,
+      })
+    })
+    .catch(error => {
+      console.log(error.message)
+      res.sendStatus(400)
+    })
+})
 
 
 // Improper URL handling
