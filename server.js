@@ -53,8 +53,9 @@ app.post('/login', (req, res) => {
 })
 
 
-app.post("/refresh", (req, res) => {
+app.post('/refresh', (req, res) => {
   const refreshToken = req.body.refreshToken
+
   const spotifyApi = new SpotifyWebApi({
     redirectUri: process.env.REDIRECT_URI,
     clientId: process.env.CLIENT_ID,
@@ -65,9 +66,10 @@ app.post("/refresh", (req, res) => {
   spotifyApi
     .refreshAccessToken()
     .then(data => {
+      console.log(data.body)
       res.json({
-        accessToken: data.body.accessToken,
-        expiresIn: data.body.expiresIn,
+        accessToken: data.body.access_token,
+        expiresIn: data.body.expires_in,
       })
     })
     .catch(error => {
