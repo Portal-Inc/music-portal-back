@@ -7,8 +7,8 @@ const mongoose = require("mongoose");
 const SpotifyWebApi = require('spotify-web-api-node');
 const { loginCallback } = require('./controllers/loginCallback.js')
 const { refreshCallback } = require('./controllers/refreshCallback.js')
-const { playListCallback } = require('./controllers/playListCallback')
-const { addSongCallback } = require('./controllers/addSongCallback')
+const { playListCallback } = require('./controllers/playListCallback.js')
+const { addSongCallback } = require('./controllers/addSongCallback.js')
 mongoose.connect(process.env.DB_URL);
 const PORT = process.env.PORT || 3001;
 
@@ -38,7 +38,7 @@ app.post('/refresh', refreshCallback)
 
 app.get('/play-list', playListCallback)
 
-app.post('/user-results' addSongCallback)
+app.post('/user-results', addSongCallback)
 
 // Improper URL handling
 app.get('*', (req, res) => {
