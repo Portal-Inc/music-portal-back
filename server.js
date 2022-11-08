@@ -5,10 +5,17 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require("mongoose");
 const SpotifyWebApi = require('spotify-web-api-node');
-const { loginCallback } = require('./controllers/loginCallback.js')
+const {
+  playListCallback,
+  addSongCallback,
+  deleteSongCallback
+} = require('./controllers/playList.js')
 const { refreshCallback } = require('./controllers/refreshCallback.js')
-const { playListCallback } = require('./controllers/playListCallback.js')
-const { addSongCallback } = require('./controllers/addSongCallback.js')
+//database requires
+const { loginCallback } = require('./controllers/loginCallback.js')
+
+
+
 mongoose.connect(process.env.DB_URL);
 const PORT = process.env.PORT || 3001;
 
@@ -33,13 +40,13 @@ app.get('/', (req, res) => {
 
 app.post('/login', loginCallback)
 
-
 app.post('/refresh', refreshCallback)
 
 app.get('/play-list', playListCallback)
 
-app.post('/user-results', addSongCallback)
+app.post('/add-song', addSongCallback)
 
+app.delete('/delete', deleteSongCallback)
 // Improper URL handling
 app.get('*', (req, res) => {
   res.send('Page not found')
