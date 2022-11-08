@@ -4,9 +4,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require("mongoose");
+//Spotify Related Api
 const SpotifyWebApi = require('spotify-web-api-node');
+
 const { loginCallback } = require('./controllers/loginCallback.js')
 const { refreshCallback } = require('./controllers/refreshCallback.js')
+
 mongoose.connect(process.env.DB_URL);
 const PORT = process.env.PORT || 3001;
 
