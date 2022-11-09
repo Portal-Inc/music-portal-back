@@ -23,7 +23,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.get('/', (req, res) => {
@@ -108,7 +107,7 @@ app.post('/about', (req, res) => {
 
 app.get('/lyrics', async (req, res) => {
   const lyrics = await lyricsFinder(req.query.artist, req.query.track) || 'No Lyrics Found'
-  res.json( {lyrics} )
+  res.status(200).send([lyrics])
 
 })
 
