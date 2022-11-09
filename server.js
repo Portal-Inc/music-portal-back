@@ -60,7 +60,60 @@ console.log(lyrics);
 res.status(200).send([lyrics])
 })
 
-// Improper URL handling
+
+app.post('/refresh', (req, res) => {
+  const refreshToken = req.body.refreshToken
+
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: process.env.REDIRECT_URI,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken,
+  })
+
+  spotifyApi
+    .refreshAccessToken()
+    .then(data => {
+      console.log(data.body)
+      res.json({
+        accessToken: data.body.access_token,
+        expiresIn: data.body.expires_in,
+      })
+    })
+    .catch(error => {
+      console.log(error.message)
+      res.sendStatus(400)
+    })
+})
+
+app.post('/about', (req, res) => {
+  const code = req.body.code
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: process.env.REDIRECT_URI,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+  })
+  spotifyApi
+    .refreshAccessToken(code)
+    .then(data => {
+      console.log(data.body)
+      res.json({
+        accessToken: data.body.access_token,
+        expiresIn: data.body.expires_in,
+      })
+    })
+    .catch(error => {
+      console.log(error.message)
+      res.sendStatus(400)
+    })
+})
+
+app.get('/lyrics', async (req, res) => {
+  const lyrics = await lyricsFinder(req.query.artist, req.query.track) || 'No Lyrics Found'
+  res.status(200).send([lyrics])
+
+})
+
 app.get('*', (req, res) => {
   res.send('Page not found')
 })
