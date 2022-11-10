@@ -8,9 +8,9 @@ exports.playListCallback = async (req, res) => {
 }
 
 exports.deleteSongCallback = async (req, res) => {
-  const { user_id } = req.params;
-  console.log(user_id)
-  const deletedSong = await PlaylistSchema.findByIdAndDelete({ user_id });
+  const { _id } = req.params;
+  console.log(_id)
+  const deletedSong = await PlaylistSchema.findByIdAndDelete({ _id });
   res.status(200).send(deletedSong);
 }
 
