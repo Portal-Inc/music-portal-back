@@ -36,6 +36,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'))
 
+const getLyricsCallback = async (req, res) =>  {
+  try {
+    const lyrics = await lyricsFinder(req.query.artist, req.query.track) || 'No Lyrics Found!'
+    console.log(lyrics);
+    res.status(200).send([lyrics])
+  } catch (error) {
+    console.log(error.message)
+  }
+};
 
 app.get('/', (req, res) => {
 
@@ -47,18 +56,16 @@ app.post('/login', loginCallback)
 
 app.post('/refresh', refreshCallback)
 
-app.get('/play-list', playListCallback)
+app.get('/play-list/:user_id', playListCallback)
 
 app.post('/add-song', addSongCallback)
 
 app.delete('/delete', deleteSongCallback)
 
-app.get('/lyrics', async(req, res) => {
-  // console.log(req.query);
-const lyrics = await lyricsFinder(req.query.artist, req.query.track) || 'No Lyrics Found!'
-console.log(lyrics);
-res.status(200).send([lyrics])
-})
+app.get('/lyrics', getLyricsCallback)
+
+
+
 
 
 app.post('/refresh', (req, res) => {
