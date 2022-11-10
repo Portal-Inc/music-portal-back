@@ -9,6 +9,8 @@ const lyricsFinder = require('lyrics-finder')
 const SpotifyWebApi = require('spotify-web-api-node');
 
 const {
+  addCommentCallback,
+  getOneSongCallback,
   playListCallback,
   addSongCallback,
   deleteSongCallback
@@ -56,7 +58,11 @@ app.post('/login', loginCallback)
 
 app.post('/refresh', refreshCallback)
 
+app.get('/get-song/:_id', getOneSongCallback)
+
 app.get('/play-list/:user_id', playListCallback)
+
+app.patch('/add-comment/:_id', addCommentCallback)
 
 app.post('/add-song', addSongCallback)
 

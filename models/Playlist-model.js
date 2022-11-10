@@ -10,7 +10,8 @@ const PlaylistSchema = new Schema({
   title: { type: String, required: true },
   artist: { type: String, required: true },
   uri: { type: String, required: true },
-  img_url: { type: Array, required: false }
+  user_notes: { type: String, required: false },
+  img_url: { type: String, required: false }
 });
 
 module.exports = mongoose.model('playlist', PlaylistSchema);
