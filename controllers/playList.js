@@ -17,7 +17,7 @@ exports.deleteSongCallback = async (req, res) => {
 exports.addCommentCallback = async (req, res) => {
   const id = req.params._id;
   const data = req.body;
-  const updatedItem = await PlaylistSchema.findByIdAndUpdate(id, data, { new: true, overwrite: true })
+  const updatedItem = await PlaylistSchema.findByIdAndUpdate({ _id: id }, data, { new: true, overwrite: true })
   res.status(200).send(updatedItem);
 }
 
