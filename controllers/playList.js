@@ -1,14 +1,16 @@
 const PlaylistSchema = require('../models/Playlist-model.js')
 
 exports.playListCallback = async (req, res) => {
-  const id = req.params.user_id;
-  const items = await PlaylistSchema.find({id});
+  const { user_id } = req.params;
+  console.log(user_id)
+  const items = await PlaylistSchema.find({ user_id });
   res.status(200).json(items);
 }
 
 exports.deleteSongCallback = async (req, res) => {
-  const id = req.params.id;
-  const deletedSong = await PlaylistSchema.findByIdAndDelete(id);
+  const { user_id } = req.params;
+  console.log(user_id)
+  const deletedSong = await PlaylistSchema.findByIdAndDelete({ user_id });
   res.status(200).send(deletedSong);
 }
 
