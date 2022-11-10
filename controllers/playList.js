@@ -1,7 +1,8 @@
 const PlaylistSchema = require('../models/Playlist-model.js')
 
 exports.playListCallback = async (req, res) => {
-  const items = await PlaylistSchema.find({});
+  const id = req.params.user_id;
+  const items = await PlaylistSchema.find({id});
   res.status(200).json(items);
 }
 
