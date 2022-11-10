@@ -36,7 +36,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'))
 
-const getLyricsCallback = async (req, res) =>  {
+const getLyricsCallback = async (req, res) => {
   try {
     const lyrics = await lyricsFinder(req.query.artist, req.query.track) || 'No Lyrics Found!'
     console.log(lyrics);
@@ -60,7 +60,7 @@ app.get('/play-list/:user_id', playListCallback)
 
 app.post('/add-song', addSongCallback)
 
-app.delete('/delete', deleteSongCallback)
+app.delete('/delete/:_id', deleteSongCallback)
 
 app.get('/lyrics', getLyricsCallback)
 
